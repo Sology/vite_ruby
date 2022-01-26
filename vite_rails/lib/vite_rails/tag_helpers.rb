@@ -6,7 +6,7 @@ module ViteRails::TagHelpers
   def vite_client_tag
     return unless src = vite_manifest.vite_client_src
 
-    tag.script(src: src, type: 'module')
+    content_tag(:script, "", src: src, type: 'module')
   end
 
   # Public: Renders a script tag to enable HMR with React Refresh.
@@ -72,7 +72,7 @@ private
     sources.map { |source|
       href = path_to_asset(source)
       try(:request).try(:send_early_hints, 'Link' => %(<#{ href }>; rel=modulepreload; as=script; crossorigin=#{ crossorigin }))
-      tag.link(rel: 'modulepreload', href: href, as: 'script', crossorigin: crossorigin, **options)
+      content_tag(:link, "", rel: 'modulepreload', href: href, as: 'script', crossorigin: crossorigin, **options)
     }.join("\n").html_safe
   end
 end
